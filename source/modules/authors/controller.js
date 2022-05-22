@@ -1,4 +1,4 @@
-import { NotFound } from "~/shared/http-errors";
+import { BadRequest, NotFound } from "~/shared/http-errors";
 
 export default class AuthorsController {
   constructor({ model, request, response }) {
@@ -24,12 +24,20 @@ export default class AuthorsController {
   }
 
   async create() {
+    if (!this.request.body.name) {
+      throw new BadRequest("Author name is required");
+    }
+
     const author = await this.model.create({ name: this.request.body.name });
 
     return this.response.status(201).json(author);
   }
 
   async update() {
+    if (!this.request.body.name) {
+      throw new BadRequest("Author name is required");
+    }
+
     const author = await this.model.update(this.request.params.id, {
       name: this.request.body.name,
     });

@@ -80,6 +80,22 @@ describe("POST /books", () => {
     expect(show.body.title).toBe(book.title);
     expect(show.body.author_id).toBe(book.author_id);
   });
+
+  it("returns a 400 if book's title is missing", async () => {
+    const response = await request(server).post("/books").send({
+      author_id: author.id,
+    });
+
+    expect(response.status).toBe(400);
+  });
+
+  it("returns a 400 if book's author_id is missing", async () => {
+    const response = await request(server).post("/books").send({
+      title: "any-title",
+    });
+
+    expect(response.status).toBe(400);
+  });
 });
 
 describe("PUT /books/:id", () => {
@@ -115,6 +131,22 @@ describe("PUT /books/:id", () => {
     });
 
     expect(response.status).toBe(404);
+  });
+
+  it("returns a 400 if book's title is missing", async () => {
+    const response = await request(server).put(`/books/${book.id}`).send({
+      author_id: author.id,
+    });
+
+    expect(response.status).toBe(400);
+  });
+
+  it("returns a 400 if book's author_id is missing", async () => {
+    const response = await request(server).put(`/books/${book.id}`).send({
+      title: "any-title",
+    });
+
+    expect(response.status).toBe(400);
   });
 });
 

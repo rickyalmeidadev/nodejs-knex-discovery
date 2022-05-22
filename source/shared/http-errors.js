@@ -5,6 +5,12 @@ export default class HttpError extends Error {
   }
 }
 
+export class BadRequest extends HttpError {
+  constructor(message) {
+    super(message, 400);
+  }
+}
+
 export class NotFound extends HttpError {
   constructor(message) {
     super(message, 404);

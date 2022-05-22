@@ -66,6 +66,12 @@ describe("POST /authors", () => {
     expect(show.body.id).toBe(create.body.id);
     expect(show.body.name).toBe(author.name);
   });
+
+  it("returns a 400 if author is invalid", async () => {
+    const response = await request(server).post("/authors").send({});
+
+    expect(response.status).toBe(400);
+  });
 });
 
 describe("PUT /authors/:id", () => {
@@ -97,6 +103,14 @@ describe("PUT /authors/:id", () => {
     });
 
     expect(response.status).toBe(404);
+  });
+
+  it("returns a 400 if author is invalid", async () => {
+    const response = await request(server)
+      .put(`/authors/${author.id}`)
+      .send({});
+
+    expect(response.status).toBe(400);
   });
 });
 

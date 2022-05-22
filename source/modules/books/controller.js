@@ -1,4 +1,4 @@
-import { NotFound } from "~/shared/http-errors";
+import { BadRequest, NotFound } from "~/shared/http-errors";
 
 export default class BooksController {
   constructor({ model, request, response }) {
@@ -24,6 +24,14 @@ export default class BooksController {
   }
 
   async create() {
+    if (!this.request.body.title) {
+      throw new BadRequest("Book title is required");
+    }
+
+    if (!this.request.body.author_id) {
+      throw new BadRequest("Book author is required");
+    }
+
     const book = await this.model.create({
       title: this.request.body.title,
       author_id: this.request.body.author_id,
@@ -33,6 +41,14 @@ export default class BooksController {
   }
 
   async update() {
+    if (!this.request.body.title) {
+      throw new BadRequest("Book title is required");
+    }
+
+    if (!this.request.body.author_id) {
+      throw new BadRequest("Book author is required");
+    }
+
     const book = await this.model.update(this.request.params.id, {
       title: this.request.body.title,
       author_id: this.request.body.author_id,
