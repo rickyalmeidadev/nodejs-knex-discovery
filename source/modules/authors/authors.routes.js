@@ -1,10 +1,10 @@
 import { Router } from "express";
-import BooksController from "./controller";
-import Book from "./model";
+import AuthorsController from "./authors.controller";
+import Author from "./authors.model";
 
 const buildHandler = (name) => (request, response) => {
-  const controller = new BooksController({
-    model: Book,
+  const controller = new AuthorsController({
+    model: Author,
     request,
     response,
   });

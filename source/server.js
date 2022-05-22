@@ -2,8 +2,8 @@ import "express-async-errors";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import authors from "~/modules/authors/routes";
-import books from "~/modules/books/routes";
+import authors from "~/modules/authors/authors.routes";
+import books from "~/modules/books/books.routes";
 import HttpError from "~/shared/http-errors";
 import environment from "~/environment";
 
