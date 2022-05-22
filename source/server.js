@@ -1,5 +1,6 @@
 import "express-async-errors";
 import express from "express";
+import authors from "./modules/authors/routes";
 import books from "~/modules/books/routes";
 import HttpError from "./shared/http-errors";
 
@@ -11,6 +12,7 @@ server.get("/", (_, response) =>
   response.send("Welcome to Node.js Knex Discovery!")
 );
 
+server.use("/authors", authors);
 server.use("/books", books);
 
 server.use((error, request, response, next) => {
