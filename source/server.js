@@ -1,11 +1,11 @@
-import express from 'express'
+import express from "express";
 
-const server = express()
+const server = express();
 
-server.use(express.json())
+server.use(express.json());
 
-server.get('/', (request, response) => {
-  return response.send('Welcome to Node.js Knex Discovery!')
-})
+server.get("/", (request, response) => {
+  return response.send("Welcome to Node.js Knex Discovery!");
+});
 
-export default server
+export default server;
