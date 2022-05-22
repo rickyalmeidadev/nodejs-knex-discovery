@@ -1,3 +1,5 @@
+import { NotFound } from "~/shared/http-errors";
+
 export default class BooksController {
   constructor({ model, request, response }) {
     this.model = model;
@@ -8,11 +10,15 @@ export default class BooksController {
   async index() {
     const books = await this.model.all();
 
-    return this.response.json(books);
+    return this.response.set("X-Total-Count", books.length).json(books);
   }
 
   async show() {
     const book = await this.model.find(this.request.params.id);
+
+    if (!book) {
+      throw new NotFound("Book not found");
+    }
 
     return this.response.json(book);
   }
@@ -23,7 +29,7 @@ export default class BooksController {
       author_id: this.request.body.author_id,
     });
 
-    return this.response.json(book);
+    return this.response.status(201).json(book);
   }
 
   async update() {
@@ -32,11 +38,19 @@ export default class BooksController {
       author_id: this.request.body.author_id,
     });
 
+    if (!book) {
+      throw new NotFound("Book not found");
+    }
+
     return this.response.json(book);
   }
 
   async delete() {
     const book = await this.model.delete(this.request.params.id);
+
+    if (!book) {
+      throw new NotFound("Book not found");
+    }
 
     return this.response.json(book);
   }

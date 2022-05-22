@@ -21,17 +21,26 @@ export default class Book {
   static async create({ title, author_id }) {
     const book = new Book({ title, author_id });
 
-    return knex.insert(book).into("books").returning("*");
+    await knex.insert(book).into("books");
+
+    const [first] = await knex.select("*").from("books").where("id", book.id);
+
+    return first;
   }
 
   static async update(id, { title, author_id }) {
-    return knex("books")
-      .where("id", id)
-      .update({ title, author_id })
-      .returning("*");
+    await knex.update({ title, author_id }).from("books").where("id", id);
+
+    const [book] = await knex.select("*").from("books").where("id", id);
+
+    return book;
   }
 
   static async delete(id) {
-    return knex("books").where("id", id).del().returning("*");
+    const [book] = await knex.select("*").from("books").where("id", id);
+
+    await knex.del().from("books").where("id", id);
+
+    return book;
   }
 }

@@ -1,5 +1,7 @@
+import "express-async-errors";
 import express from "express";
 import books from "~/modules/books/routes";
+import HttpError from "./shared/http-errors";
 
 const server = express();
 
@@ -10,5 +12,13 @@ server.get("/", (_, response) =>
 );
 
 server.use("/books", books);
+
+server.use((error, request, response, next) => {
+  if (error instanceof HttpError) {
+    return response.status(error.status).json({ message: error.message });
+  }
+
+  return response.status(500).json({ message: "Internal server error" });
+});
 
 export default server;
