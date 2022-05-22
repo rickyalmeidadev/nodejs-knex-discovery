@@ -1,5 +1,5 @@
 import path from "node:path";
-import environment from "~/environment";
+import environment from "../environment";
 
 export default {
   client: "sqlite3",

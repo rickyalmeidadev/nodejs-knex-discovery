@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node source/index.js",
+    "start": "node build/index.js",
     "dev": "nodemon --exec babel-node source/index.js",
+    "build": "babel source --out-dir build",
     "knex": "babel-node node_modules/knex/bin/cli.js --knexfile source/database/knexfile.js",
     "test": "jest",
     "test:watch": "jest --watch"
