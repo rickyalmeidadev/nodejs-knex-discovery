@@ -1,3 +1,6 @@
+import environment from "~/environment";
 import server from "~/server";
 
-server.listen(3000);
+server.listen(environment.PORT, () =>
+  console.log(`Server listening on port ${environment.PORT}`)
+);
