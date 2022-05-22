@@ -1,27 +1,36 @@
-import { Router } from "express";
+import buildHandler from "~/shared/build-handler";
+import buildRouter from "~/shared/build-router";
 import BooksController from "./books.controller";
 import Book from "./books.model";
 
-const buildHandler = (name) => (request, response) => {
-  const controller = new BooksController({
-    model: Book,
-    request,
-    response,
-  });
-
-  return controller[name]();
-};
-
 const routes = [
-  { path: "/", method: "get", handler: buildHandler("index") },
-  { path: "/", method: "post", handler: buildHandler("create") },
-  { path: "/:id", method: "get", handler: buildHandler("show") },
-  { path: "/:id", method: "put", handler: buildHandler("update") },
-  { path: "/:id", method: "delete", handler: buildHandler("delete") },
+  {
+    path: "/",
+    method: "get",
+    handler: buildHandler(BooksController, "index", { model: Book }),
+  },
+  {
+    path: "/",
+    method: "post",
+    handler: buildHandler(BooksController, "create", { model: Book }),
+  },
+  {
+    path: "/:id",
+    method: "get",
+    handler: buildHandler(BooksController, "show", { model: Book }),
+  },
+  {
+    path: "/:id",
+    method: "put",
+    handler: buildHandler(BooksController, "update", { model: Book }),
+  },
+  {
+    path: "/:id",
+    method: "delete",
+    handler: buildHandler(BooksController, "delete", { model: Book }),
+  },
 ];
 
-const router = Router();
-
-routes.forEach(({ handler, method, path }) => router[method](path, handler));
+const router = buildRouter(routes);
 
 export default router;
